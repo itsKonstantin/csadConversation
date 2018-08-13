@@ -1,0 +1,153 @@
+******** Step 81 *****************
+var config = {
+  watson: {
+   assistant: {
+      username: "",
+      password: "",
+      version: "2018-07-10",
+      workspace_id: ""
+    }
+  }
+};
+module.exports = config;
+***********************************
+******** Step 84 *****************
+var assistantRouter = require('./routes/assistant');
+***********************************
+******** Step 87 *****************
+app.use('/assistant', assistantRouter);
+***********************************
+******** Step 93 *****************
+var config = require('../config');
+var express = require('express');
+var bodyParser = require('body-parser');
+var AssistantV1 = require('watson-developer-cloud/assistant/v1');
+***********************************
+******** Step 94 *****************
+var router = express.Router();
+***********************************
+******** Step 95 *****************
+var jsonParser = bodyParser.json();
+***********************************
+******** Step 96 *****************
+var watsonAssistant = new AssistantV1(config.watson.assistant);
+***********************************
+******** Step 97 *****************
+router.post('/', jsonParser, function(req, res, next) {
+    watsonAssistant.message({
+        'input': req.body.input,
+        'context': req.body.context,
+        'workspace_id': config.watson.assistant.workspace_id
+    },
+    function(err, response) {
+        if (err) {
+            console.log('error:', err);
+        } else {
+            console.log(JSON.stringify(response, null, 2));
+            res.json(response);
+        }
+    });
+});
+***********************************
+******** Step 98 *****************
+module.exports = router;
+***********************************
+******** Step 102 *****************
+<!DOCTYPE html>
+ <html>
+   <head> 
+    <title>IBM Watson Assistant</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/style.css' /> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+       var context = {};
+
+       function updateChatLog(user, message) {
+         if (message) { 
+          var div = document.createElement("div"); 
+          div.innerHTML = "<b>" + user + "</b>: " + message;
+          document.getElementById("history").appendChild(div); 
+          document.getElementById("text").value = ""; 
+        } 
+      }
+
+       function sendMessage() { 
+        var text = document.getElementById("text").value; 
+        updateChatLog("You", text); 
+        var payload = {}; 
+        if (text) { 
+          payload.input = {"text": text};
+        };
+         if (context) {
+          payload.context = context;
+        }; 
+        var xhr = new XMLHttpRequest(); 
+        xhr.onreadystatechange = function() {
+           if (xhr.readyState == 4) {
+             if (xhr.status == 200) { 
+              var json = JSON.parse(xhr.responseText); 
+              context = json.context;
+               updateChatLog("Watson", json.output.text); 
+            }
+          }
+        }
+        xhr.open("POST", "./assistant", true);
+         xhr.setRequestHeader("Content-type", "application/json");
+         xhr.send(JSON.stringify(payload)); 
+      }
+      function init() {
+         document.getElementById("text").addEventListener("keydown", function(e) {
+           if (!e) {
+            var e = window.event;
+          }
+           if (e.keyCode == 13) {
+            sendMessage();
+          } 
+        }, false); 
+        sendMessage(); 
+      } 
+    </script> 
+  </head> 
+  <body onLoad="init()"> 
+  <div class="container" style="text-align: center">
+    <div class="row"><div class="col-md-12"><p><h2>IBM EAG Watson Assistant Lab</h2></p></div></div>
+     <p/>
+    <div class="row">
+    <div class="col-md-3"></div>
+      <div class="input-group col-md-6">
+          <input type="text" id="text" name="text" class="form-control" placeholder="Enter text sent to Watson">
+          <span class="input-group-btn">
+               <button class="btn btn-primary" onclick="sendMessage()" >Send</button>
+          </span>
+       </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 mt-2">
+          <div><b>Conversation History:</b></div> 
+          <div id="history" class="form-control col text-left" ></div> 
+        </div>
+      </div>
+      <div class="row"><div class="col-md-12"><p><small>IBM Ecosystem Advocacy Group – 2018</small></p></div></div>
+      </div>
+  </body> 
+</html>
+***********************************
+******** Step 115 *****************
+console.log("Detected input: " + response.input.text);
+if (response.intents.length > 0) {
+    var intent = response.intents[0];
+    console.log("Detected intent: " + intent.intent);
+    console.log("Confidence: " + intent.confidence);
+}
+if (response.entities.length > 0) {
+    var entity = response.entities[0];
+    console.log("Detected entity: " + entity.entity);
+    console.log("Value: " + entity.value);
+    if ((entity.entity === 'help') && (entity.value === 'time')) {
+        var msg = 'The current time is ' + new Date().toLocaleTimeString();
+        console.log(msg);
+        response.output.text = msg;
+    }
+}
