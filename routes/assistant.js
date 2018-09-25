@@ -6,13 +6,13 @@ var AssistantV1 = require('watson-developer-cloud/assistant/v1');
 var router = express.Router();
 var jsonParser = bodyParser.json();
 
-var watsonAssistant = new AssistantV1(config.watson.conversation);
+var watsonAssistant = new AssistantV1(config.watson.assistant);
 
 router.post('/', jsonParser, function(req, res, next) {
   watsonAssistant.message({ 
    'input': req.body.input, 
    'context': req.body.context, 
-   'workspace_id': config.watson.conversation.workspace_id 
+   'workspace_id': config.watson.assistant.workspace_id 
    }, 
    function(err, response) { 
      if (err) {
