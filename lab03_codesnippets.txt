@@ -42,7 +42,10 @@ router.post('/', jsonParser, function(req, res, next) {
     function(err, response) {
         if (err) {
             console.log('error:', err);
-        } else {
+        } else {      // init - return immediately
+          if (!response.input.text) {
+            return res.json(response);
+          }
             console.log(JSON.stringify(response, null, 2));
             res.json(response);
         }

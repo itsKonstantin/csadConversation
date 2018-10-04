@@ -18,6 +18,9 @@ router.post('/', jsonParser, function(req, res, next) {
      if (err) {
        console.log('error:', err); 
      } else { 
+      if (!response.input.text) {
+        return res.json(response);
+       }
       console.log("Detected input: " + response.input.text);
       if (response.intents.length > 0) {
         var intent = response.intents[0];

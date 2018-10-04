@@ -1,0 +1,351 @@
+{
+  "name": "CSAD Demo",
+  "intents": [{
+    "intent": "Hello",
+    "examples": [{
+      "text": "Good morning"
+    }, {
+      "text": "Greetings"
+    }, {
+      "text": "Hello"
+    }, {
+      "text": "Hi"
+    }, {
+      "text": "Howdy"
+    }],
+    "description": "Greeting for app"
+  }, {
+    "intent": "goodbye",
+    "examples": [{
+      "text": "Bye"
+    }, {
+      "text": "Goodbye"
+    }, {
+      "text": "Farewell"
+    }, {
+      "text": "I am leaving"
+    }, {
+      "text": "See you later"
+    }],
+    "description": "Goodbye"
+  }, {
+    "intent": "turn_on",
+    "examples": [{
+      "text": "Start recording"
+    }, {
+      "text": "Arm the security system"
+    }, {
+      "text": "Lock the doors"
+    }, {
+      "text": "I need lights"
+    }, {
+      "text": "Turn on the lights"
+    }, {
+      "text": "headlights"
+    }],
+    "description": "Turn on"
+  }, {
+    "intent": "Help-Misc",
+    "examples": [{
+      "text": "I have a request"
+    }, {
+      "text": "I would like some assistance"
+    }, {
+      "text": "I need information"
+    }, {
+      "text": "I have a problem"
+    }, {
+      "text": "I need help"
+    }],
+    "description": "Help"
+  }],
+  "entities": [{
+    "entity": "help",
+    "values": [{
+      "type": "synonyms",
+      "value": "time",
+      "metadata": null,
+      "synonyms": ["clock", "hour", "minute", "second"]
+    }],
+    "metadata": null,
+    "description": null
+  }, {
+    "entity": "Device",
+    "values": [{
+      "type": "synonyms",
+      "value": "lights",
+      "metadata": null,
+      "synonyms": ["bulb", "lamp"]
+    }, {
+      "type": "synonyms",
+      "value": "doors",
+      "metadata": null,
+      "synonyms": ["locks", "gates"]
+    }, {
+      "type": "synonyms",
+      "value": "radio",
+      "metadata": null,
+      "synonyms": ["car radio"]
+    }, {
+      "type": "synonyms",
+      "value": "security system",
+      "metadata": null,
+      "synonyms": ["alarm"]
+    }],
+    "metadata": null,
+    "description": null
+  }, {
+    "entity": "lights",
+    "values": [{
+      "type": "synonyms",
+      "value": "fog lamp",
+      "metadata": null,
+      "synonyms": ["fog light"]
+    }, {
+      "type": "synonyms",
+      "value": "high beam",
+      "metadata": null,
+      "synonyms": ["full beam", "main beam", "brights"]
+    }, {
+      "type": "synonyms",
+      "value": "low beam",
+      "metadata": null,
+      "synonyms": ["headlights", "passing lights", "dim light"]
+    }, {
+      "type": "synonyms",
+      "value": "rear fog lamp",
+      "metadata": null,
+      "synonyms": ["rear fog light"]
+    }],
+    "metadata": null,
+    "description": null,
+    "fuzzy_match": false
+  }],
+  "language": "en",
+  "metadata": {
+    "api_version": {
+      "major_version": "v1",
+      "minor_version": "2017-05-26"
+    }
+  },
+  "description": "For demos only",
+  "dialog_nodes": [{
+    "type": "standard",
+    "title": "Invalid light",
+    "output": {
+      "text": {
+        "values": ["I'm sorry, I can only turn on hallway, landscape, or overhead lights."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_4_1525352042831",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "true",
+    "description": null,
+    "dialog_node": "node_6_1525352541204",
+    "previous_sibling": "node_5_1525352414291"
+  }, {
+    "type": "standard",
+    "title": "Light On",
+    "output": {
+      "text": {
+        "values": ["OK! Turning on @lights lights."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_4_1525352042831",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@lights",
+    "description": null,
+    "dialog_node": "node_5_1525352414291",
+    "previous_sibling": null
+  }, {
+    "type": "standard",
+    "title": "Devices",
+    "output": {
+      "text": {
+        "values": ["OK! Turning on @Device."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_3_1525351985076",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@Device",
+    "description": null,
+    "dialog_node": "node_7_1525352897812",
+    "previous_sibling": "node_4_1525352042831"
+  }, {
+    "type": "standard",
+    "title": "Invalid device",
+    "output": {
+      "text": {
+        "values": ["I'm sorry, I don't know how to do that. I can turn on lights, cameras, or security systems."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_3_1525351985076",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "true",
+    "description": null,
+    "dialog_node": "node_8_1525352986606",
+    "previous_sibling": "node_7_1525352897812"
+  }, {
+    "type": "standard",
+    "title": "Lights",
+    "output": {
+      "text": {
+        "values": ["OK! Which light would you like to turn on?"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_3_1525351985076",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@Device:lights",
+    "description": null,
+    "dialog_node": "node_4_1525352042831",
+    "previous_sibling": null
+  }, {
+    "type": "standard",
+    "title": "Additional Help",
+    "output": {
+      "text": {
+        "values": ["I'm sorry, I can't help with that. For additional help, please call 555-2368."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": "node_9_1525353342493",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "true",
+    "description": null,
+    "dialog_node": "node_11_1525353452239",
+    "previous_sibling": "node_10_1525353387383"
+  }, {
+    "type": "standard",
+    "title": "Time",
+    "output": {},
+    "parent": "node_9_1525353342493",
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "@help:time",
+    "description": null,
+    "dialog_node": "node_10_1525353387383",
+    "previous_sibling": null
+  }, {
+    "type": "standard",
+    "title": "Hello",
+    "output": {
+      "text": {
+        "values": ["Hi! What can I do for you?"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "#Hello",
+    "description": null,
+    "dialog_node": "node_1_1525351692183",
+    "previous_sibling": "Welcome"
+  }, {
+    "type": "standard",
+    "title": "Help",
+    "output": {
+      "text": {
+        "values": ["How can I help you?"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "#Help-Misc",
+    "description": null,
+    "dialog_node": "node_9_1525353342493",
+    "previous_sibling": "node_3_1525351985076"
+  }, {
+    "type": "standard",
+    "title": "Goodbye",
+    "output": {
+      "text": {
+        "values": ["Until our next meeting."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "#goodbye",
+    "description": null,
+    "dialog_node": "node_2_1525351849904",
+    "previous_sibling": "node_9_1525353342493"
+  }, {
+    "type": "standard",
+    "title": "Turn on",
+    "output": {},
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": {
+      "behavior": "jump_to",
+      "selector": "condition",
+      "dialog_node": "node_4_1525352042831"
+    },
+    "conditions": "#turn_on",
+    "description": null,
+    "dialog_node": "node_3_1525351985076",
+    "previous_sibling": "node_1_1525351692183"
+  }, {
+    "type": "standard",
+    "title": "Anything else",
+    "output": {
+      "text": {
+        "values": ["I didn't understand. You can try rephrasing.", "Can you reword your statement? I'm not understanding.", "I didn't get your meaning."],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "anything_else",
+    "description": null,
+    "dialog_node": "Anything else",
+    "previous_sibling": "node_2_1525351849904"
+  }, {
+    "type": "standard",
+    "title": "Welcome",
+    "output": {
+      "text": {
+        "values": ["Welcome to CSAD Demo!"],
+        "selection_policy": "sequential"
+      }
+    },
+    "parent": null,
+    "context": null,
+    "metadata": {},
+    "next_step": null,
+    "conditions": "welcome",
+    "description": null,
+    "dialog_node": "Welcome",
+    "previous_sibling": null
+  }],
+  "workspace_id": "e3a61879-a0ef-477b-989c-627a641cc3c4",
+  "counterexamples": [],
+  "learning_opt_out": false
+}
