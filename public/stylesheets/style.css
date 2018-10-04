@@ -6,3 +6,7 @@ body {
 a {
   color: #00B7FF;
 }
+
+.form-control {
+  margin-right: 5px;
+}
