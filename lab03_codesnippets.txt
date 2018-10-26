@@ -5,6 +5,7 @@ var config = {
       username: "",
       password: "",
       version: "2018-07-10",
+      url: "yourServiceUrl",
       workspace_id: ""
     }
   }
