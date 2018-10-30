@@ -1,4 +1,4 @@
-******** Step 81 *****************
+******** Step 81 username/passowrd version *****************
 var config = {
   watson: {
    assistant: {
@@ -10,6 +10,18 @@ var config = {
     }
   }
 };
+module.exports = config;
+******** Step 81 apikey version *****************
+var config = { 
+  watson: {
+   assistant: { 
+      iam_apikey: "<yourApiKey>", 
+      version: "2018-07-10",
+      url: "yourServiceUrl",
+      workspace_id: "<yourWorkspaceId>" 
+    } 
+  } 
+}; 
 module.exports = config;
 ***********************************
 ******** Step 84 *****************
