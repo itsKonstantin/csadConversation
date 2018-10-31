@@ -4,5 +4,3 @@ applications:
   buildpack: sdk-for-nodejs
   command: node ./bin/www
   memory: 256M
-services:
-  - my_conversation

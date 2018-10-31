@@ -4,8 +4,8 @@ var config = {
    assistant: {
       username: "",
       password: "",
-      version: "2018-07-10",
-      url: "yourServiceUrl",
+      version: "2018-09-20",
+      url: "",
       workspace_id: ""
     }
   }
@@ -15,10 +15,10 @@ module.exports = config;
 var config = { 
   watson: {
    assistant: { 
-      iam_apikey: "<yourApiKey>", 
-      version: "2018-07-10",
-      url: "yourServiceUrl",
-      workspace_id: "<yourWorkspaceId>" 
+      iam_apikey: "", 
+      version: "2018-09-20",
+      url: "",
+      workspace_id: "" 
     } 
   } 
 }; 
