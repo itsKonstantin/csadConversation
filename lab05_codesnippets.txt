@@ -70,21 +70,41 @@ function callDiscovery(response, res) {
   });
 }
 ***********************************
-******** Step 61 ******************
-var isDiscovery = false;
-***********************************
-******** Step 63 ******************
-
-***********************************
-******** Step 54 ******************
-***********************************
-******** Step 54 ******************
-***********************************
-******** Step 54 ******************
-***********************************
-******** Step 54 ******************
-***********************************
-******** Step 54 ******************
-***********************************
-******** Step 54 ******************
+******** Step 62 ******************
+  function(err, response) {
+    var isDiscovery = false; 
+    var intent = null;
+    var entity = null;
+    if (err) {
+       console.log('error:', err); 
+    } else { 
+      if (!response.input.text) {
+        return res.json(response);
+      }
+      if (response.entities.length > 0) {
+        entity = response.entities[0];
+        console.log("Detected input: " + response.input.text);
+        if (response.intents.length > 0) {
+          intent = response.intents[0];
+          console.log("Detected intent: " + intent.intent);
+          console.log("Confidence: " + intent.confidence);
+          if (intent.intent === "out_of_scope" && response.entities.indexOf("cardevice") >= -1) {  
+            isDiscovery = true;
+            callDiscovery(response, res);
+          }
+        }   
+        if (entity && entity.entity !== 'cardevice') {
+          console.log("Detected entity: " + entity.entity);
+          console.log("Value: " + entity.value);
+          if ((entity.entity === 'help') && (entity.value === 'time')) {
+            var msg = 'The current time is ' + new Date().toLocaleTimeString();
+            console.log(msg);
+            response.output.text = msg;
+          }
+        }
+      }
+      if (!isDiscovery)  // the result is sent as passed from Watson Assistant
+        res.json(response);        
+    } 
+  }); 
 ***********************************
