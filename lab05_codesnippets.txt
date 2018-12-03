@@ -1,0 +1,90 @@
+******** Step 54 ******************
+********** username/password ******
+var config = { 
+  watson: {
+    assistant: { 
+      username: "<yourServiceUsername>", 
+      password: "<yourServicePassword>", 
+      version: "2018-09-20",
+      url: "<yourServiceUrl>",
+      workspace_id: "<yourWorkspaceId>" 
+    },
+    discovery: {
+      version: "2018-08-01",
+      username: "<your discovery username>",
+      password: "<your discovery password>",
+      url: "<yourServiceUrl>"
+    },
+    discoveryEnv: {
+      collectionId: "<your collectionId>",
+      environmentId: "<your environmentId>"
+    } 
+  } 
+}; 
+module.exports = config;
+*********** iam_apikey ************
+var config = { 
+  watson: {
+    assistant: { 
+      iam_apikey: "<yourApiKey>", 
+      version: "2018-09-20",
+      url: "<yourServiceUrl>",
+      workspace_id: "<yourWorkspaceId>" 
+    },
+    discovery: {
+      version: "2018-10-15",
+      iam_apikey: "<yourApiKey>",
+      url: "<yourServiceUrl>"
+    },
+    discoveryEnv: {
+      collectionId: "<your collectionId>",
+      environmentId: "<your environmentId>"
+    } 
+  } 
+}; 
+module.exports = config;
+***********************************
+******** Step 56 ******************
+var DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
+***********************************
+******** Step 58 ******************
+var discovery = new DiscoveryV1(config.watson.discovery);
+***********************************
+******** Step 59 ******************
+function callDiscovery(response, res) {
+  var params = {
+    'query': response.input.text,
+    'environment_id': config.watson.discoveryEnv.environmentId,
+    'collection_id': config.watson.discoveryEnv.collectionId,
+    'passages': true,
+    return: 'text, title, sourceUrl, passages'
+  };
+  discovery.query(params, (error, results) => {
+    if (error) {
+      console.log("Discovery Error: " + error);
+    } else {
+      console.log(results);
+      response.output.text = results.passages[0].passage_text;
+      res.json(response);
+    }
+  });
+}
+***********************************
+******** Step 61 ******************
+var isDiscovery = false;
+***********************************
+******** Step 63 ******************
+
+***********************************
+******** Step 54 ******************
+***********************************
+******** Step 54 ******************
+***********************************
+******** Step 54 ******************
+***********************************
+******** Step 54 ******************
+***********************************
+******** Step 54 ******************
+***********************************
+******** Step 54 ******************
+***********************************

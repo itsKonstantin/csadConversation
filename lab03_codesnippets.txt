@@ -1,4 +1,5 @@
-******** Step 81 *****************
+******** Step 82 *****************
+**** username/password *********
 var config = {
   watson: {
    assistant: {
@@ -10,29 +11,41 @@ var config = {
   }
 };
 module.exports = config;
-***********************************
-******** Step 84 *****************
-var assistantRouter = require('./routes/assistant');
+********** iam_apikey **********
+var config = { 
+  watson: {
+    assistant: { 
+      iam_apikey: "<yourApiKey>", 
+      version: "2018-09-20",
+      url: "yourServiceUrl",
+      workspace_id: "<yourWorkspaceId>" 
+    } 
+  } 
+}; 
+module.exports = config;
 ***********************************
 ******** Step 87 *****************
+var assistantRouter = require('./routes/assistant');
+***********************************
+******** Step 89 *****************
 app.use('/assistant', assistantRouter);
 ***********************************
-******** Step 93 *****************
+******** Step 94 *****************
 var config = require('../config');
 var express = require('express');
 var bodyParser = require('body-parser');
 var AssistantV1 = require('watson-developer-cloud/assistant/v1');
 ***********************************
-******** Step 94 *****************
+******** Step 95 *****************
 var router = express.Router();
 ***********************************
-******** Step 95 *****************
+******** Step 96 *****************
 var jsonParser = bodyParser.json();
 ***********************************
-******** Step 96 *****************
+******** Step 97 *****************
 var watsonAssistant = new AssistantV1(config.watson.assistant);
 ***********************************
-******** Step 97 *****************
+******** Step 98 *****************
 router.post('/', jsonParser, function(req, res, next) {
     watsonAssistant.message({
         'input': req.body.input,
@@ -49,10 +62,10 @@ router.post('/', jsonParser, function(req, res, next) {
     });
 });
 ***********************************
-******** Step 98 *****************
+******** Step 99 *****************
 module.exports = router;
 ***********************************
-******** Step 102 *****************
+******** Step 103 *****************
 <!DOCTYPE html>
  <html>
    <head> 

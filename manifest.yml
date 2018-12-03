@@ -1,8 +1,9 @@
 applications:
-- name: csadConversation-xxx
+- name: kps-csadConversation
   path: .
   buildpack: sdk-for-nodejs
   command: node ./bin/www
   memory: 256M
 services:
-  - my_conversation
+  - my-assistant
+  - my-discovery
